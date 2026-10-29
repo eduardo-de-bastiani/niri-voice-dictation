@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "niri-dictate"
+version = "0.1.0"
+description = "Wayland-native voice dictation engine for Niri and Dank Material Shell"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "tiktoken",
+]
+
+[project.scripts]
+niri-dictate = "niri_dictate.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["niri_dictate*"]

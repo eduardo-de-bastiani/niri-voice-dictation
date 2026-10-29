@@ -1,0 +1,16 @@
+// ==============================================================================
+// Niri Compositor Keybinding Configuration: Voice Dictation Toggle
+// Include this snippet in ~/.config/niri/config.kdl inside the `binds { ... }` block
+// or include it via: include "config/niri_bind.kdl"
+// ==============================================================================
+
+binds {
+    // Dictation toggle hotkey
+    // Properties:
+    // - repeat=false: Prevents autorepeat when holding down the key combo
+    // - cooldown-ms=500: Rate limits rapid key taps to protect audio capture state
+    // - hotkey-overlay-title: Describes the action in Niri's hotkey cheat-sheet (Mod+Shift+/)
+    Mod+Alt+D repeat=false cooldown-ms=500 hotkey-overlay-title="Toggle Voice Dictation" {
+        spawn "/usr/local/bin/niri-dictate" "toggle";
+    }
+}

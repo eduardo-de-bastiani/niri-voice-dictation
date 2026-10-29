@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# Niri Wayland Voice Dictation Launcher
+# Resolves Python 3.12+ runtime and executes niri_dictate module
+# ==============================================================================
+set -euo pipefail
+
+REAL_SCRIPT="$(readlink -f "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(cd "$(dirname "$REAL_SCRIPT")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+# Discover Python binary (virtualenv prioritized, system python fallback)
+PYTHON_BIN=""
+if [[ -f "$PROJECT_ROOT/.venv/bin/python3" ]]; then
+    PYTHON_BIN="$PROJECT_ROOT/.venv/bin/python3"
+elif [[ -n "${VIRTUAL_ENV:-}" && -f "$VIRTUAL_ENV/bin/python3" ]]; then
+    PYTHON_BIN="$VIRTUAL_ENV/bin/python3"
+else
+    PYTHON_BIN="$(command -v python3 2>/dev/null || true)"
+fi
+
+if [[ -z "$PYTHON_BIN" ]]; then
+    echo "Error: Python 3 not found. Please install Python 3.12+." >&2
+    exit 1
+fi
+
+# Ensure project root is present in PYTHONPATH
+export PYTHONPATH="$PROJECT_ROOT:${PYTHONPATH:-}"
+
+# Execute niri_dictate module with all passed CLI arguments
+exec "$PYTHON_BIN" -m niri_dictate "$@"
